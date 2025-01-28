@@ -178,6 +178,13 @@ out_ref_particle = [
 assert dct['lines']['fccee_p_ring']['refer']['expr'] == 'centre'
 assert dct['lines']['fccee_p_ring']['parent'] == 'sequence'
 
+out_lattice = []
+out_lattice.append(f'ring = env.new_builder(name="fccee_p_ring")')
+out_lattice.append('')
+for ee in dct['lines']['fccee_p_ring']['elements']:
+    out_lattice.append(f"ring.new('{ee[0]}', '{ee[1]['parent']}', at={ee[1]['at']['expr']})")
+out_lattice.append('')
+out_lattice.append('ring.build()')
 
 with open('fccee_z_lattice.py', 'w') as fid:
     fid.write('\n'.join(
@@ -187,4 +194,6 @@ with open('fccee_z_lattice.py', 'w') as fid:
         ['# Lattice parameters:'] +
         out_lattice_parameters +
         out_elements +
+        ['# Lattice:'] +
+        out_lattice +
         at_end_file))
