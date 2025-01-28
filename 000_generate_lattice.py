@@ -197,3 +197,23 @@ with open('fccee_z_lattice.py', 'w') as fid:
         ['# Lattice:'] +
         out_lattice +
         at_end_file))
+
+with open('fccee_z_strengths.py', 'w') as fid:
+    fid.write('\n'.join(
+        at_start_file + out_strengths + at_end_file))
+
+
+other_parameters = sorted(list(
+                          set(list(tt_vars.name))
+                        - set(lattice_parameters)
+                        - set(list(tt_strengths.name))))
+out_other_parameters = []
+for nn in other_parameters:
+    out_other_parameters.append(tt_vars['statement', nn])
+
+with open('fccee_z_other_parameters.py', 'w') as fid:
+    fid.write('\n'.join(
+        at_start_file +
+        ['# Other parameters:'] +
+        out_other_parameters +
+        at_end_file))
