@@ -6,7 +6,7 @@ from xtrack.mad_parser.loader import MadxLoader, get_params
 parser = MadxParser()
 loader = MadxLoader()
 
-fname = '../fcc-ee-lattice/lattices/z/fccee_z.seq'
+fname = '../../fcc-ee-lattice/lattices/z/fccee_z.seq'
 
 with open(fname, 'r') as fid:
     lines = fid.readlines()
@@ -217,3 +217,8 @@ with open('fccee_z_other_parameters.py', 'w') as fid:
         ['# Other parameters:'] +
         out_other_parameters +
         at_end_file))
+
+# Copy lattice and strengths to the main directory
+import shutil
+shutil.copy('fccee_z_lattice.py', '..')
+shutil.copy('fccee_z_strengths.py', '..')
