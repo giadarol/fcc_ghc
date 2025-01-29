@@ -11,7 +11,7 @@ env['l400_1'] = 11.24
 env['ldrf'] = 0.5 # Need to extend with thick cavities
 
 env.new('ac400_1', 'Cavity', frequency='freq400_1 * 1e6',
-        lag='lag400_1 * 360.', voltage='volt400_1 * on_rf400_1')
+        lag='lag400_1 * 360.', voltage='volt400_1 * on_rf400_1 * 1e6')
 
 line = env.fccee_p_ring
 
@@ -49,5 +49,6 @@ line.insert([
     env.new('ac400_1.13', 'ac400_1', at='3.5 + 1*ldrf + 0.5*l400_1', from_='qrdr2.3'),
     env.new('ac400_1.14', 'ac400_1', at='3.5 + 2*ldrf + 1.5*l400_1', from_='qrdr2.3'),
 ], s_tol=1e-8)
+
 # Flatten;
 # Endedit;
