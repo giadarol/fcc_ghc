@@ -15,7 +15,7 @@ env.new('ac400_1', 'Cavity', frequency='freq400_1 * 1e6',
 
 line = env.fccee_p_ring
 
-# Remove all presently installed cavities wiht name starting with ca1
+# Remove all presently installed cavities with name starting with ca1
 line.discard_tracker()
 tt = line.get_table()
 tt_cav = tt.rows[tt.element_type == 'Cavity'].rows['ca1.*']
@@ -50,5 +50,18 @@ line.insert([
     env.new('ac400_1.14', 'ac400_1', at='3.5 + 2*ldrf + 1.5*l400_1', from_='qrdr2.3'),
 ], s_tol=1e-8)
 
-# Flatten;
-# Endedit;
+# Install cavities also in the thin line, if present
+if 'fccee_p_ring_thin' in env.lines:
+
+    # remove all cavities from the thin line
+    env.fccee_p_ring_thin.discard_tracker()
+    tt = env.fccee_p_ring_thin.get_table()
+    tt_cav = tt.rows[tt.element_type == 'Cavity']
+    for nn in tt_cav.name:
+        env.fccee_p_ring_thin.remove(nn)
+
+    # Install all cavities in the thick line also in the thin line
+    tt_thick = line.get_table()
+    tt_cav_in_thick = tt_thick.rows[tt_thick.element_type == 'Cavity']
+    env.fccee_p_ring_thin.insert(
+        [env.place(nn, at=tt_thick['s', nn])  for nn in tt_cav_in_thick.name])
