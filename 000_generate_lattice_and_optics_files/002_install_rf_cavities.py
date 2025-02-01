@@ -16,11 +16,9 @@ env.new('ac400_1', 'Cavity', frequency='freq400_1 * 1e6',
 line = env.fccee_p_ring
 
 # Remove all presently installed cavities with name starting with ca1
-line.discard_tracker()
 tt = line.get_table()
 tt_cav = tt.rows[tt.element_type == 'Cavity'].rows['ca1.*']
-for nn in tt_cav.name:
-    line.remove(nn)
+line.remove(tt_cav.name)
 
 # Install RF cryomodules modules at Z optics
 # Note that the cavities should be installed on the right side of the Insertion (clockwise beam)
@@ -54,11 +52,9 @@ line.insert([
 if 'fccee_p_ring_thin' in env.lines:
 
     # remove all cavities from the thin line
-    env.fccee_p_ring_thin.discard_tracker()
     tt = env.fccee_p_ring_thin.get_table()
     tt_cav = tt.rows[tt.element_type == 'Cavity']
-    for nn in tt_cav.name:
-        env.fccee_p_ring_thin.remove(nn)
+    env.fccee_p_ring_thin.remove(tt_cav.name)
 
     # Install all cavities in the thick line also in the thin line
     tt_thick = line.get_table()
