@@ -1,7 +1,7 @@
 import xtrack as xt
 import numpy as np
 
-env = xt.Environment.from_json('../fccee_z_thick_thin.json.gz')
+env = xt.get_environment()
 
 env['freq400_1'] = 400.7871323229729
 env['lag400_1'] = 0.4
@@ -63,7 +63,5 @@ if 'fccee_p_ring_thin' in env.lines:
     # Install all cavities in the thick line also in the thin line
     tt_thick = line.get_table()
     tt_cav_in_thick = tt_thick.rows[tt_thick.element_type == 'Cavity']
-    insertions = []
-    for nn in tt_cav_in_thick.name:
-        insertions.append(env.place(nn, at=tt_thick['s', nn]))
-    env.fccee_p_ring_thin.insert(insertions)
+    env.fccee_p_ring_thin.insert(
+        [env.place(nn, at=tt_thick['s', nn]) for nn in tt_cav_in_thick.name])
