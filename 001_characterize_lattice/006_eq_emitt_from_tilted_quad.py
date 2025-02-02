@@ -3,12 +3,18 @@ import xobjects as xo
 import numpy as np
 
 env = xt.Environment.from_json('../fccee_z_thick_thin.json.gz')
+n_turns_track_test = 6000
+
+# env = xt.Environment.from_json('../fccee_t_thick_thin.json.gz')
+# n_turns_track_test = 1000
+
 line = env.fccee_p_ring_thin
 
 # For twiss 6d we set cavity lags to 180 degrees, tapering will adjust the phase
 line['lagca1'] = 0.5
+line['lagca2'] = 0.5 # used only in fccee_t
 
-n_turns_track_test = 6000
+
 num_particles_test = 150
 
 line.replace_all_repeated_elements()

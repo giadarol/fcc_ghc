@@ -1,7 +1,7 @@
 import xtrack as xt
 import numpy as np
 
-env = xt.Environment.from_json('../fccee_t_thick_thin.json.gz')
+env = xt.Environment.from_json('../fccee_z_thick_thin.json.gz')
 
 line = env.fccee_p_ring_thin
 
@@ -21,7 +21,7 @@ from momentum_acceptance import ActionMomentumAcceptance
 nemitt_x = 6.33e-5
 nemitt_y = 1.69e-7
 energy_spread=3.9e-4
-nn_y_r=15 # number of points 
+nn_y_r=15 # number of points
 max_y_r=15
 global_xy_limit = 10e-2 # particles are lost when they reach this limit in x or y
 num_turns = 100
