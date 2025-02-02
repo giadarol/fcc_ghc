@@ -3,8 +3,11 @@ import numpy as np
 
 env = xt.Environment()
 
-env.call('../fccee_z_lattice.py')
-env.call('../fccee_z_strengths.py')
+# lattice_config= 'z'
+lattice_config = 't'
+
+env.call(f'../fccee_{lattice_config}_lattice.py')
+env.call(f'../fccee_{lattice_config}_strengths.py')
 
 line_thick = env.fccee_p_ring
 tw_thick = line_thick.twiss4d(strengths=True)
@@ -25,10 +28,19 @@ line.replace_all_repeated_elements()
 Strategy = xt.slicing.Strategy
 Teapot = xt.slicing.Teapot
 
+if lattice_config == 'z':
+    n_slice_arc_quad = 10
+elif lattice_config == 't':
+    n_slice_arc_quad = 15
+else:
+    raise ValueError(f'Unknown lattice configuration: {lattice_config}')
+
 slicing_strategies = [
     Strategy(slicing=None),  # Default catch-all as in MAD-X
     Strategy(slicing=Teapot(2), element_type=xt.Bend),
-    Strategy(slicing=Teapot(10), element_type=xt.Quadrupole),
+    Strategy(slicing=Teapot(n_slice_arc_quad), element_type=xt.Quadrupole),
+    Strategy(slicing=Teapot(1), element_type=xt.Sextupole),
+    Strategy(slicing=Teapot(1), element_type=xt.Octupole),
     # Quad with betas above 5000 m
     Strategy(slicing=Teapot(200), name='qc1l2.*'),
     Strategy(slicing=Teapot(200), name='qc1r3.*'),
@@ -74,8 +86,8 @@ print(f'Qy thin:  {tw.qy}, error: {tw.qy - tw_thick.qy:.2e}')
 
 env['fccee_p_ring_thin'] = line
 
-env.to_json('fccee_z_thick_thin.json.gz')
+env.to_json(f'fccee_{lattice_config}_thick_thin.json.gz')
 
 # Copy lattice and strengths to the main directory
 import shutil
-shutil.copy('fccee_z_thick_thin.json.gz', '..')
+shutil.copy(f'fccee_{lattice_config}_thick_thin.json.gz', '..')

@@ -3,10 +3,14 @@ import matplotlib.pyplot as plt
 import xtrack as xt
 
 env = xt.Environment.from_json('../fccee_z_thick_thin.json.gz')
+
+# Istall relalistic rf cavities
+env.call('../toolkit/install_rf_cavities_rpo.py')
+
 line = env.fccee_p_ring_thin
 
 # For twiss 6d we set cavity lags to 180 degrees, tapering will adjust the phase
-line['lagca1'] = 0.5
+line['l400_2'] = 0.5
 
 tt = line.get_table()
 tt_cav = tt.rows[tt.element_type == 'Cavity']

@@ -6,7 +6,10 @@ from xtrack.mad_parser.loader import MadxLoader, get_params
 parser = MadxParser()
 loader = MadxLoader()
 
-fname = '../../fcc-ee-lattice/lattices/z/fccee_z.seq'
+# lattice_config = 'z'
+lattice_config = 't'
+
+fname = f'../../fcc-ee-lattice/lattices/{lattice_config}/fccee_{lattice_config}.seq'
 
 with open(fname, 'r') as fid:
     lines = fid.readlines()
@@ -170,10 +173,18 @@ for nn in lattice_parameters:
     out_lattice_parameters.append(tt_other['statement', nn])
 
 # Reference particle
-out_ref_particle = [
-    '# Reference particle',
-    'env.particle_ref = xt.Particles(mass0=xt.ELECTRON_MASS_EV, energy0=45.6e9)'
-]
+if lattice_config == 'z':
+    out_ref_particle = [
+        '# Reference particle',
+        'env.particle_ref = xt.Particles(mass0=xt.ELECTRON_MASS_EV, energy0=45.6e9)'
+    ]
+elif lattice_config == 't':
+    out_ref_particle = [
+        '# Reference particle',
+        'env.particle_ref = xt.Particles(mass0=xt.ELECTRON_MASS_EV, energy0=182.5e9)'
+    ]
+else:
+    raise ValueError(f'Unknown lattice configuration: {lattice_config}')
 
 assert dct['lines']['fccee_p_ring']['refer']['expr'] == 'centre'
 assert dct['lines']['fccee_p_ring']['parent'] == 'sequence'
@@ -186,7 +197,7 @@ for ee in dct['lines']['fccee_p_ring']['elements']:
 out_lattice.append('')
 out_lattice.append('ring.build()')
 
-with open('fccee_z_lattice.py', 'w') as fid:
+with open(f'fccee_{lattice_config}_lattice.py', 'w') as fid:
     fid.write('\n'.join(
         at_start_file +
         out_ref_particle +
@@ -198,7 +209,7 @@ with open('fccee_z_lattice.py', 'w') as fid:
         out_lattice +
         at_end_file))
 
-with open('fccee_z_strengths.py', 'w') as fid:
+with open(f'fccee_{lattice_config}_strengths.py', 'w') as fid:
     fid.write('\n'.join(
         at_start_file + out_strengths + at_end_file))
 
@@ -211,7 +222,7 @@ out_other_parameters = []
 for nn in other_parameters:
     out_other_parameters.append(tt_vars['statement', nn])
 
-with open('fccee_z_other_parameters.py', 'w') as fid:
+with open(f'fccee_{lattice_config}_other_parameters.py', 'w') as fid:
     fid.write('\n'.join(
         at_start_file +
         ['# Other parameters:'] +
@@ -220,5 +231,5 @@ with open('fccee_z_other_parameters.py', 'w') as fid:
 
 # Copy lattice and strengths to the main directory
 import shutil
-shutil.copy('fccee_z_lattice.py', '..')
-shutil.copy('fccee_z_strengths.py', '..')
+shutil.copy(f'fccee_{lattice_config}_lattice.py', '..')
+shutil.copy(f'fccee_{lattice_config}_strengths.py', '..')
