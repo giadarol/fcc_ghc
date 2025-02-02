@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 env = xt.Environment()
-env.call('../fccee_z_lattice.py')
-env.call('../fccee_z_strengths.py')
+env.call('../fccee_t_lattice.py')
+env.call('../fccee_t_strengths.py')
 
 line = env['fccee_p_ring']
 

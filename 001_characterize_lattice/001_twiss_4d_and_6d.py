@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 env = xt.Environment()
-env.call('../fccee_z_lattice.py')
-env.call('../fccee_z_strengths.py')
+env.call('../fccee_t_lattice.py')
+env.call('../fccee_t_strengths.py')
 
 line = env['fccee_p_ring']
 
 # For twiss 6d we set cavity lags to 180 degrees, as radiation is not active
 line['lagca1'] = 0.5
+line['lagca2'] = 0.5 # used only in fccee_t
 
 # Twiss 4d
 tw4d = line.twiss4d()
