@@ -1,9 +1,11 @@
 import xtrack as xt
 import numpy as np
 
-env = xt.Environment.from_json('../fccee_z_thick_thin.json.gz')
+env = xt.Environment()
+env.call('../fccee_z_lattice.py')
+env.call('../fccee_z_strengths.py')
 
-line = env.fccee_p_ring_thin
+line = env.fccee_p_ring
 
 # For twiss 6d we set cavity lags to 180 degrees, as radiation is not active
 line['lagca1'] = 0.5
