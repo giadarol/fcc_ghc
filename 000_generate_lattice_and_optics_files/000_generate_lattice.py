@@ -270,6 +270,22 @@ elif lattice_config == 't':
 else:
     raise ValueError(f'Unknown lattice configuration: {lattice_config}')
 
+
+##########################
+# Models and integrators #
+##########################
+
+model_integ_part = '''
+tt = env.fccee_p_ring.get_table()
+tt_bend = tt.rows[(tt.element_type=='Bend') | (tt.element_type=='RBend')]
+tt_quad = tt.rows[(tt.element_type=='Quadrupole')]
+tt_sext = tt.rows[(tt.element_type=='Sextupole')]
+
+env.set(tt_bend, integrator='uniform', num_multipole_kicks=3, model='drift-kick-drift-expanded')
+env.set(tt_quad, integrator='uniform', num_multipole_kicks=3, model='mat-kick-mat')
+env.set(tt_sext, integrator='yoshida4', num_multipole_kicks=1)
+'''
+
 #####################
 # Assemble the file #
 #####################
@@ -308,6 +324,13 @@ lattice_file_content = '\n'.join([
    '##############',
    '',
    builder_part,
+   '',
+   '##########################',
+   '# Models and integrators #',
+   '##########################',
+   '',
+   model_integ_part,
+   '',
    postamble])
 
 with open(f'fccee_{lattice_config}_lattice.py', 'w') as fid:
