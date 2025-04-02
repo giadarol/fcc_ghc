@@ -4,12 +4,13 @@ import numpy as np
 
 env = xt.Environment()
 
-env.call('../fccee_z_lattice.py')
-env.call('../fccee_z_strengths.py')
-n_turns_track_test = 6000
+# env.call('../fccee_z_lattice.py')
+# env.call('../fccee_z_strengths.py')
+# n_turns_track_test = 6000
 
-# env = xt.Environment.from_json('../fccee_t_thick_thin.json.gz')
-# n_turns_track_test = 1000
+env.call('../fccee_t_lattice.py')
+env.call('../fccee_t_strengths.py')
+n_turns_track_test = 500
 
 line = env.fccee_p_ring
 
@@ -22,7 +23,7 @@ num_particles_test = 150
 
 line.replace_all_repeated_elements()
 
-line['qc1r1.2'].rot_s_rad = 0.5e-5
+line['qc1r1.2'].rot_s_rad = 0.1e-5
 line['qc1l1.1'].rot_s_rad = 0.1e-5
 tw0 = line.twiss4d()
 
