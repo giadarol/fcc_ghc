@@ -79,7 +79,7 @@ at_end_file.append('')
 BASE_TYPE_DEFS = '''
 # Base types
 env.new("sbend", "Bend")
-env.new("rbend", "Bend", rbend=True)
+env.new("rbend", "RBend")
 env.new("quadrupole", "Quadrupole")
 env.new("sextupole", "Sextupole")
 env.new("octupole", "Octupole")
