@@ -4,13 +4,13 @@ import numpy as np
 
 env = xt.Environment()
 
-# env.call('../fccee_z_lattice.py')
-# env.call('../fccee_z_strengths.py')
-# n_turns_track_test = 6000
+env.call('../fccee_z_lattice.py')
+env.call('../fccee_z_strengths.py')
+n_turns_track_test = 6000
 
-env.call('../fccee_t_lattice.py')
-env.call('../fccee_t_strengths.py')
-n_turns_track_test = 500
+# env.call('../fccee_t_lattice.py')
+# env.call('../fccee_t_strengths.py')
+# n_turns_track_test = 500
 
 line = env.fccee_p_ring
 
