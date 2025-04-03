@@ -4,12 +4,14 @@ import numpy as np
 
 from xtrack.mad_parser.loader import CONSTANTS
 
-lattice_config = 'z'
-# lattice_config = 't'
+# lattice_config = 'z'
+lattice_config = 't'
 
 formatter = xd.refs.CompactFormatter(scope=None)
 SKIP_PARAMS = ['order', 'model', '_edge_entry_model', '_edge_exit_model',
-               'k0_from_h', 'h']
+               'h',
+               'k0' # Here I am assuming that k0 is always equal to h
+               ]
 
 #######################
 # Auxiliary functions #
@@ -281,7 +283,7 @@ tt_bend = tt.rows[(tt.element_type=='Bend') | (tt.element_type=='RBend')]
 tt_quad = tt.rows[(tt.element_type=='Quadrupole')]
 tt_sext = tt.rows[(tt.element_type=='Sextupole')]
 
-env.set(tt_bend, integrator='uniform', num_multipole_kicks=1, model='mat-kick-mat')
+env.set(tt_bend, integrator='uniform', num_multipole_kicks=3, model='mat-kick-mat')
 env.set(tt_quad, integrator='uniform', num_multipole_kicks=3, model='mat-kick-mat')
 env.set(tt_sext, integrator='yoshida4', num_multipole_kicks=1)
 '''
